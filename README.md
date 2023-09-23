@@ -4,7 +4,7 @@
 
 ### [Live Demo](https://scrum-board-tanishchugh01.vercel.app/)
 
-### [For more information about the project click here](https://github.com/tanishchugh01/Scrum-Board/blob/main/INFO.md)
+### [For more information about the project click here](https://github.com/tanishchugh01/Scrum-Board/blob/main/INFO.MD)
 
 ## Questions and Answers
 Q: If user can create and edit stages for a particular board. For example instead of Open > In Progress > Done if they want the stages of their task board to be Read > Working > Reviewing > Completed
