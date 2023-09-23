@@ -1,70 +1,21 @@
 import { BoardType } from "@/common/types/BoardType";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Stage from "./Stage";
 import { TaskType } from "@/common/types/TaskType";
+import getBoardApi from "./api/getBoard";
+import postBoardApi from "./api/postBoard";
 
 const ScrumBoard: React.FC = () => {
   const [boardData, setBoardData] = useState<BoardType>({
-    stages: [
-      {
-        id: 1,
-        stageName: "To Do",
-        tasks: [
-          {
-            id: 1,
-            title: "Task 1",
-            description: "Description 1",
-            imageUrl: "https://picsum.photos/200/300",
-          },
-          {
-            id: 2,
-            title: "Task 2",
-            description: "Description 2",
-            imageUrl: "https://picsum.photos/200/300",
-          },
-        ],
-      },
-      {
-        id: 2,
-        stageName: "In Progress",
-        tasks: [
-          {
-            id: 3,
-            title: "Task 3",
-            description: "Description 3",
-            imageUrl: "https://picsum.photos/200/300",
-          },
-          {
-            id: 4,
-            title: "Task 4",
-            description: "Description 4",
-          },
-        ],
-      },
-      {
-        id: 3,
-        stageName: "Done",
-        tasks: [
-          {
-            id: 5,
-            title: "Task 5",
-            description: "Description 5",
-            imageUrl: "https://picsum.photos/200/300",
-          },
-          {
-            id: 6,
-            title: "Task 6",
-            description: "Description 6",
-            imageUrl: "https://picsum.photos/200/300",
-          },
-        ],
-      },
-    // { id: 4, stageName: "To Do", tasks: [] },
-    // { id: 5, stageName: "To Do", tasks: [] },
-    // { id: 6, stageName: "To Do", tasks: [] },
-    ]
-  }
-    );
+    stages: [],
+  });
+
+  useEffect(() => {
+    const boardId = "1";
+    const board = getBoardApi(boardId);
+    setBoardData(board);
+  }, []);
+
   // const boardWidth = boardData.length * 1/2 * 100;
   // console.log(boardWidth);
 
@@ -110,6 +61,7 @@ const ScrumBoard: React.FC = () => {
     // });
 
     setBoardData({ stages: tempStages });
+    postBoardApi(boardData, 1);
   };
 
   const handleDragEnter = (taskId: number, stageId: number) => {
@@ -123,6 +75,23 @@ const ScrumBoard: React.FC = () => {
     });
   };
 
+  const addTask = (taskName: string, stageId: number) => {
+    const tempStages = [...boardData.stages];
+
+    const stageIndex = tempStages.findIndex((item) => item.id === stageId);
+    if (stageIndex == -1) return;
+
+    const newTask: TaskType = {
+      id: Date.now() + Math.random(),
+      title: taskName,
+      description: "",
+      imageUrl: "",
+      stageId: stageId,
+    };
+    tempStages[stageIndex].tasks.push(newTask);
+    setBoardData({ stages: tempStages });
+  };
+
   return (
     <div
       className={`h-screen flex flex-row justify-around items-center overflow-x-auto gap-7`}>
@@ -132,8 +101,9 @@ const ScrumBoard: React.FC = () => {
           stageName={stage.stageName}
           tasks={stage.tasks}
           id={stage.id}
-          handleDragEnd={handleDragEnd}
-          handleDragEnter={handleDragEnter}
+          // handleDragEnd={handleDragEnd}
+          // handleDragEnter={handleDragEnter}
+          {...{ handleDragEnd, handleDragEnter, addTask }}
         />
       ))}
     </div>
