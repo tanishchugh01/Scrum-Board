@@ -17,8 +17,6 @@
 
 
 ## Demo
-![ezgif com-video-to-gif](https://github.com/tanishchugh01/Scrum-Board/assets/72879445/53aba567-3539-4105-af84-b82d49209a77)
-
-![image](https://github.com/tanishchugh01/Scrum-Board/assets/72879445/6a6d2a6e-9e62-4e0f-8856-c09cc01ab4fa)
-![image](https://github.com/tanishchugh01/Scrum-Board/assets/72879445/5f6e3269-1f51-432a-bd40-801492382335)
-
+<img  src="https://imageupload.io/ib/HsDNpp5pSXI4Y1Z_1695495968.gif" alt="ezgif.com-video-to-gif.gif"/>
+<img  src="https://imageupload.io/ib/BBdg2DInEsxH4ZJ_1695495968.png" alt="Control-V (10).png"/>
+<img  src="https://imageupload.io/ib/mYAbJ8EVn2k9INb_1695495969.png" alt="Control-V (11).png"/>
