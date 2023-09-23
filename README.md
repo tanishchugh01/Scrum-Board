@@ -1,40 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Scrum Board
 
-## Getting Started
+### A light weight interactive scrum board to add task and manage them
 
-First, run the development server:
+### [Live Demo](https://scrum-board-tanishchugh01.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### [For more infoormation about the project click here](https://github.com/tanishchugh01/Scrum-Board/blob/main/INFO.md)
+
+## Questions and Answers
+Q: If user can create and edit stages for a particular board. For example instead of Open > In Progress > Done if they want the stages of their task board to be Read > Working > Reviewing > Completed
+
+
+A: The stages of a board are stored in the object of the board itself. So, if a user wants to change the stages of a board, he/she can simply change the stages in the object of the board.
+The object that is sent to the client is as follows:
+
+```js
+{
+  stages: [
+    id: 1,
+    stageName: "To Do",
+    tasks: [
+      ...tasks
+    ],
+    id: 2,
+    stageName: "In Progress",
+    tasks: [
+      ...tasks
+    ],
+    id: 3,
+    stageName: "Done",
+    tasks: [
+      ...tasks
+    ],
+  ],
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+So if a user wants to change the stages of a board, he/she can simply change the stages in the object of the board.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Q: If users can comment on tasks
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+A: Currently, the task object has the following properties:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```js
+{
+  title: string;
+  description: string;
+  imageUrl: string | undefined;
+  id: number;
+  stageId: number;
+}
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+So, we can add a property `comments: commentType[];` to the task object. The `commentType` will be as follows:
 
-## Learn More
+```js
+{
+  id: number;
+  comment: string;
+  userId: number;
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+Then we can add a new api endpoint to add a comment to a task. The api endpoint will take the comment and the task id and will add the comment to the task and return the updated task/updated board.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Q: How will you do error handling?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+A: We have a reusable error component present in the `src/common/components` folder. The error component will take error object as props and will show the error message to the user accordingly. We can use axios response to get the error message and error type and then we can show the error message to the user. We can map for different error status codes and show the error message accordingly.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```js
+switch (error?.response?.status) {
+  case 403:
+    message = "Rate Limit Exceeded";
+    break;
+  case 404:
+    message = "Not Found";
+    break;
+  case 500:
+    message = "Internal Server Error";
+    break;
+  case 400:
+    message = "Bad Request";
+    break;
+  case 401:
+    message = "Unauthorized";
+    break;
+  case 402:
+    message = "Payment Required";
+    break;
+  default:
+    message = "Something went wrong";
+    break;
+}
+```

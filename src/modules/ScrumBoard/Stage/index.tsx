@@ -49,6 +49,7 @@ const Stage: React.FC<
         <button
           className="bg-green-500 text-white rounded-lg p-2"
           onClick={() => {
+            if (!taskName) return;
             addTask(taskName, id);
             setTaskName("");
           }}>
